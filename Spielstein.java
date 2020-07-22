@@ -38,7 +38,7 @@ public class Spielstein {
         boolean[][] neueForm = new boolean[4][4];
         for (int i = 0; i < form.length; i++){
             for (int j = 0; j < form.length; j++){
-                neueForm[j][i] = form[i][j];
+                neueForm[j][i] = form[i][(form.length -1 )-j];
             }
         }
         if (!gc.kollisionsabfrage(new Spielstein(posX, posY, neueForm, gc))) {

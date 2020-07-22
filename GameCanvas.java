@@ -17,14 +17,14 @@ public class GameCanvas extends Canvas implements KeyListener {
         laengeStein =  ((this.getHeight()-1) /(gameCycle.getFeld().length));
         this.setBackground(Color.BLACK);
         this.setVisible(true);
-        this.setSize(180, 400);
         this.setFocusable(true);
         this.requestFocus();
+        addKeyListener(this);
     }
 
 
     private int yPos(int x){
-        return (int) (this.getWidth() - (x * breiteStein));
+        return (int) ((x * breiteStein));
     }
 
     private int xPos (int y){
@@ -73,7 +73,6 @@ public class GameCanvas extends Canvas implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
     }
 
     @Override

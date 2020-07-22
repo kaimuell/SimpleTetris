@@ -124,18 +124,18 @@ public class GameCycle extends Thread {
             anzeigenController.updateVorschauCanvas();
         //falls Zeilen in feld vollständig gefüllt erhöhe Punktzahl, lösche die Zeilen und lasse die anderen nach unten fallen.
             int geloeschteZeilen = 0; //Zur Berechnung der Punktzahl;
-            for (int i = 0; i < spielstein.getForm().length; i++) {
+            for (int i = 0; i < feld.length; i++) {
                 int gefuellt = 0;
-                for (int j = 0; j < spielstein.getForm()[i].length; j++) {
+                for (int j = 0; j < feld[i].length; j++) {
                     if (feld[i][j]) {
                         gefuellt += 1;
                     }
                 }
                 if (gefuellt == feld[i].length) {
                     geloeschteZeilen += 1;
-                    for (int k = i; i < feld.length - 1; k++) {
-                        for (int l = 0; k < feld[k].length; l++) {
-                            feld[k][l] = feld[k + 1][l + 1];
+                    for (int k = i; k < feld.length - 1; k++) {
+                        for (int l = 0; l < feld[k].length; l++) {
+                            feld[k][l] = feld[k + 1][l];
                         }
                     }
                     for (int m = 0; m < feld[i].length; m++) {
