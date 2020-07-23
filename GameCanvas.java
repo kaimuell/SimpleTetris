@@ -48,11 +48,10 @@ public class GameCanvas extends Canvas implements KeyListener {
         }
         //Male alle Punkte aus dem Hintergrundarray als Rechtecke.
         for (int i = 0; i < gameCycle.getFeld().length; i++){
-            for (int j = 0; j< gameCycle.getFeld()[i].length; j++){
+            for (int j = 0; j < gameCycle.getFeld()[i].length; j++){
                 if (gameCycle.getFeld()[i][j]){
                     g.setColor(Color.BLUE);
-                    g.drawRect(yPos(j), xPos(i), (int)breiteStein, (int)laengeStein);
-
+                    g.fillRect(yPos(j), xPos(i), (int)breiteStein, (int)laengeStein);
                 }
             }
         }
@@ -61,11 +60,9 @@ public class GameCanvas extends Canvas implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == 'a' || e.getKeyChar() == 'A'){
-            System.out.println("A gedrückt.");
             gameCycle.getAktuellerSpielstein().linksBewegen();
             repaint();
         } else if (e.getKeyChar() == 'd' || e.getKeyChar() == 'D'){
-            System.out.println("d gedrückt.");
             gameCycle.getAktuellerSpielstein().rechtsBewegen();
             repaint();
         }
@@ -78,7 +75,6 @@ public class GameCanvas extends Canvas implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyChar() == KeyEvent.VK_SPACE){
-            System.out.println("Leertaste betätigt.");
             gameCycle.getAktuellerSpielstein().rotieren();
             repaint();
         }

@@ -132,6 +132,7 @@ public class GameCycle extends Thread {
                     }
                 }
                 if (gefuellt == feld[i].length) {
+                    i = i-1; //Um aktuelles Feld nocheinmal zu durchlaufen
                     geloeschteZeilen += 1;
                     for (int k = i; k < feld.length - 1; k++) {
                         for (int l = 0; l < feld[k].length; l++) {
