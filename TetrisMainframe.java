@@ -9,7 +9,7 @@ public class TetrisMainframe extends Frame  {
         super("SimpleTetris");
         setVisible(true);
         setSize(500, 500);
-        GameCycle gc = new GameCycle( 20, 4, 700);
+        GameCycle gc = new GameCycle( 20, 4, 200);
         AnzeigenController anzeigenController = new AnzeigenController(gc);
         gc.addAnzeigenController(anzeigenController);
         this.add(anzeigenController.getGameCanvas());

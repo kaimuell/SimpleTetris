@@ -132,19 +132,22 @@ public class GameCycle extends Thread {
                     }
                 }
                 if (gefuellt == feld[i].length) {
+                    int iTemp = i;
                     i = i-1; //Um aktuelles Feld nocheinmal zu durchlaufen
                     geloeschteZeilen += 1;
-                    for (int k = i; k < feld.length - 1; k++) {
+                    for (int k = iTemp; k < feld.length - 1; k++) {
                         for (int l = 0; l < feld[k].length; l++) {
                             feld[k][l] = feld[k + 1][l];
                         }
                     }
-                    for (int m = 0; m < feld[i].length; m++) {
+                    for (int m = 0; m < feld[iTemp].length; m++) {
                         feld[feld.length - 1][m] = false;
                     }
                 }
             }
-            this.punkteStand += (int) Math.pow(2, geloeschteZeilen);
+            if (geloeschteZeilen > 0) {
+                this.punkteStand += (int) Math.pow(2, geloeschteZeilen);
+            }
             anzeigenController.updatePunkteLabel(punkteStand);
             anzeigenController.updateGameCanvas();
         }
@@ -166,9 +169,9 @@ public class GameCycle extends Thread {
             try {
                 sleep(geschwindigkeit);
                 runde();
-                if (geschwindigkeit > 10) {
+               /* if (geschwindigkeit > 10) {
                     geschwindigkeit -= 1;
-                }
+                }*/
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
