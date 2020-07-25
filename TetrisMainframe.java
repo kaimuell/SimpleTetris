@@ -33,10 +33,16 @@ public class TetrisMainframe extends Frame  {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gc.start();
-                anzeigenController.gameCanvas.requestFocus();
+                if (gc.isSpielende()) {
+                    gc.start();
+                    anzeigenController.gameCanvas.requestFocus();
+                } else {
+                    anzeigenController.gameCanvas.requestFocus();
+                    //Pause Funktion schreiben
+                }
             }
         });
+
 
         this.add(startButton);
         this.addWindowListener(new WindowAdapter() {

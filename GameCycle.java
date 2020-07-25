@@ -51,7 +51,7 @@ public class GameCycle extends Thread {
     }
 
     public void erzeugeNaechstenSpielstein() {
-        int zufallsZahl = (random.nextInt() % 4);
+        int zufallsZahl = (random.nextInt() % 6);
         switch (zufallsZahl) {
             case 0:
                 naechsterSpielstein = new LForm(initPosX, initPosY, this);
@@ -65,9 +65,15 @@ public class GameCycle extends Thread {
             case 3:
                 naechsterSpielstein = new Wuerfel(initPosX, initPosY, this);
                 break;
+            case 4:
+                naechsterSpielstein = new SFormGespiegelt(initPosX, initPosY, this);
+                break;
+            case 5:
+                naechsterSpielstein = new LFormGespiegelt(initPosX, initPosY, this);
+                break;
             default:
                 naechsterSpielstein = new Linie(initPosX, initPosY, this);
-                break;
+                System.out.println("In Gamecycle.erzuegenaechstenSIelstein : default erreicht.");
         }
     }
 
