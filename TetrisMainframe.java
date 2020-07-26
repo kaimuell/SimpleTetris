@@ -9,9 +9,7 @@ public class TetrisMainframe extends Frame  {
         super("SimpleTetris");
         setVisible(true);
         setSize(500, 500);
-        GameCycle gc = new GameCycle( 20, 4, 200);
-        AnzeigenController anzeigenController = new AnzeigenController(gc);
-        gc.addAnzeigenController(anzeigenController);
+        AnzeigenController anzeigenController = new AnzeigenController();
         this.add(anzeigenController.getGameCanvas());
         this.add(anzeigenController.getVorschauCanvas());
         Label naechsterSteinLabel = new Label("NAECHSTER STEIN :");
@@ -27,8 +25,8 @@ public class TetrisMainframe extends Frame  {
         steuerungslabel2.setSize(200,60);
         steuerungslabel2.setLocation(XOFFSET, 300);
         this.add(steuerungslabel2);
-        Button startButton = new Button("START");
-        startButton.setSize(100,30);
+        /*Button startButton = new Button("START");
+        startButton.setPreferredSize(100,30);
         startButton.setLocation(XOFFSET,400);
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -36,15 +34,13 @@ public class TetrisMainframe extends Frame  {
                 if (gc.isSpielende()) {
                     gc.start();
                     anzeigenController.gameCanvas.requestFocus();
-                } else {
-                    anzeigenController.gameCanvas.requestFocus();
-                    //Pause Funktion schreiben
+                    startButton.setEnabled(false);
                 }
             }
         });
+        */
 
-
-        this.add(startButton);
+        this.add(anzeigenController.startButton);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -53,12 +49,6 @@ public class TetrisMainframe extends Frame  {
         });
 
     }
-
-
-
-
-
-
 
 
     public static void main(String[] args){

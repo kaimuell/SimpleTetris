@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 //Klasse zur Kontrolle des generellen Spielzyklus.
-//VORSICHT muss mit einem Anzeigen Kontroller vor dem Start des Threads verbunden werden.
 
 public class GameCycle extends Thread {
     private boolean[][] feld; //Feste Steine
@@ -13,8 +12,10 @@ public class GameCycle extends Thread {
     private int punkteStand;
     private int geschwindigkeit;
     private AnzeigenController anzeigenController;
+    public boolean wurdeGestartet;
+    private boolean aktuellesSpielAbgeschlossen;
 
-    GameCycle( int initPosX, int initPosY, int anfangsgeschwindigkeit) {
+    GameCycle(AnzeigenController anzeigenController, int initPosX, int initPosY, int anfangsgeschwindigkeit) {
         this.feld = new boolean[20][9];
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
@@ -30,14 +31,35 @@ public class GameCycle extends Thread {
         erzeugeNaechstenSpielstein();
         this.spielstein = naechsterSpielstein;
         erzeugeNaechstenSpielstein();
-    }
-    public void addAnzeigenController(AnzeigenController anzeigenController){
         this.anzeigenController = anzeigenController;
+        this.aktuellesSpielAbgeschlossen = false;
+    }
+
+    public void resetGameCycle(){
+        for (int i = 0; i < feld.length; i++) {
+            for (int j = 0; j < feld[i].length; j++) {
+                feld[i][j] = false;
+            }
+        }
+
+        this.punkteStand = 0;
+        erzeugeNaechstenSpielstein();
+        this.spielstein = naechsterSpielstein;
+        erzeugeNaechstenSpielstein();
     }
 
     public boolean isSpielende(){
         return spielende;
     }
+
+    public void setSpielende (boolean b){
+        this.spielende = b;
+    }
+
+    public void setAktuellesSpielAbgeschlossen(boolean aktuellesSpielAbgeschlossen) {
+        this.aktuellesSpielAbgeschlossen = aktuellesSpielAbgeschlossen;
+    }
+
     public Spielstein getNaechsterSpielstein() {
         return naechsterSpielstein;
     }
@@ -51,7 +73,7 @@ public class GameCycle extends Thread {
     }
 
     public void erzeugeNaechstenSpielstein() {
-        int zufallsZahl = (random.nextInt() % 6);
+        int zufallsZahl = Math.abs(random.nextInt() % 6);
         switch (zufallsZahl) {
             case 0:
                 naechsterSpielstein = new LForm(initPosX, initPosY, this);
@@ -73,7 +95,6 @@ public class GameCycle extends Thread {
                 break;
             default:
                 naechsterSpielstein = new Linie(initPosX, initPosY, this);
-                System.out.println("In Gamecycle.erzuegenaechstenSIelstein : default erreicht.");
         }
     }
 
@@ -119,7 +140,10 @@ public class GameCycle extends Thread {
                     if (spielstein.getForm()[i][j]) {
                         if (i + spielstein.getPosX() < feld.length) {
                             feld[i + spielstein.getPosX()][j + spielstein.getPosY()] = true;
-                        } else spielende = true;
+                        } else {
+                            spielende = true;
+                            aktuellesSpielAbgeschlossen = true;
+                        }
                     }
                 }
             }
@@ -165,16 +189,39 @@ public class GameCycle extends Thread {
     }
 
     @Override
-    public void run() {
-        spielende = false;
+    public synchronized void run() {
+        wurdeGestartet = true;
         erzeugeNaechstenSpielstein();
         this.spielstein = naechsterSpielstein;
         erzeugeNaechstenSpielstein();
-        if (anzeigenController != null){ anzeigenController.updateVorschauCanvas();}
-        while (!spielende) {
+        if (anzeigenController != null) {
+            anzeigenController.updateVorschauCanvas();
+        }
+        while (true) {
+
+            //Spiel ausführen
+            while (!isSpielende()) {
+                try {
+                    sleep(geschwindigkeit);
+                    runde();
+               /* if (geschwindigkeit > 10) {
+                    geschwindigkeit -= 1;
+                }*/
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            // Spiel zurücksetzen.
+            if (aktuellesSpielAbgeschlossen) {
+                resetGameCycle();
+                anzeigenController.resetStartButton();
+                anzeigenController.gameCanvas.repaint();
+                aktuellesSpielAbgeschlossen = false;
+
+            }
+
             try {
-                sleep(geschwindigkeit);
-                runde();
+                sleep(500);
                /* if (geschwindigkeit > 10) {
                     geschwindigkeit -= 1;
                 }*/
@@ -182,5 +229,6 @@ public class GameCycle extends Thread {
                 e.printStackTrace();
             }
         }
+
     }
 }
