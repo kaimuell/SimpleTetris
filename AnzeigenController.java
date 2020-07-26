@@ -44,7 +44,7 @@ public class AnzeigenController {
         Button startButton = new Button("START");
         startButton.setEnabled(true);
         startButton.setSize(100,30);
-        startButton.setLocation(XOFFSET,400);
+        startButton.setLocation(XOFFSET,380);
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,12 +52,12 @@ public class AnzeigenController {
                     if (!gameCycle.wurdeGestartet) {
                         gameCycle.setSpielende(false);
                         gameCycle.start();
-                        gameCanvas.requestFocus();
                         startButton.setEnabled(false);
+                        gameCanvas.requestFocus();
                     }else{
                         gameCycle.setSpielende(false);
-                        gameCanvas.requestFocus();
                         startButton.setEnabled(false);
+                        gameCanvas.requestFocus();
                     }
                 }
             }
