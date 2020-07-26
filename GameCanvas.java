@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,8 +20,8 @@ public class GameCanvas extends Canvas implements KeyListener {
         this.setVisible(true);
         this.setFocusable(true);
         this.requestFocus();
-        addKeyListener(this);
-    }
+        this.addKeyListener(this);
+     }
 
 
     private int yPos(int x){
@@ -35,11 +36,10 @@ public class GameCanvas extends Canvas implements KeyListener {
     public void paint(Graphics g){
         //Male alle Punkte aus aktuellem Spielstein als Rechtecke.
 
-        boolean[][] sp = gameCycle.getAktuellerSpielstein().getForm();
-        for (int spX=0;spX < sp.length; spX ++){
-            for (int spY=0; spY < sp[0].length; spY++){
+        for (int spX=0;spX < gameCycle.getAktuellerSpielstein().getForm().length; spX ++){
+            for (int spY=0; spY < gameCycle.getAktuellerSpielstein().getForm()[0].length; spY++){
             if ((spX + gameCycle.getAktuellerSpielstein().getPosX()) < gameCycle.getFeld().length){
-                if (sp[spX][spY]){
+                if (gameCycle.getAktuellerSpielstein().getForm()[spX][spY]){
                     g.setColor(Color.RED);
                     g.drawRect(yPos(gameCycle.getAktuellerSpielstein().getPosY()+spY), xPos(gameCycle.getAktuellerSpielstein().getPosX()+spX),
                              (int) breiteStein, (int)laengeStein); }
@@ -64,6 +64,9 @@ public class GameCanvas extends Canvas implements KeyListener {
             repaint();
         } else if (e.getKeyChar() == 'd' || e.getKeyChar() == 'D'){
             gameCycle.getAktuellerSpielstein().rechtsBewegen();
+            repaint();
+        }else if (e.getKeyChar() == 's' || e.getKeyChar() == 'S'){
+            gameCycle.runde();
             repaint();
         }
     }

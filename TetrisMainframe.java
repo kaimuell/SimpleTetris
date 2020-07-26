@@ -18,28 +18,17 @@ public class TetrisMainframe extends Frame  {
         this.add(anzeigenController.punkteLabel);
         this.add(naechsterSteinLabel);
         Label steuerungslabel1 = new Label("A = links, D = rechts");
-        steuerungslabel1.setSize(200,60);
+        steuerungslabel1.setSize(200,30);
         steuerungslabel1.setLocation(XOFFSET, 250);
         this.add(steuerungslabel1);
-        Label steuerungslabel2 = new Label("SPACE = rotieren.");
-        steuerungslabel2.setSize(200,60);
-        steuerungslabel2.setLocation(XOFFSET, 300);
+        Label steuerungslabel2 = new Label("S = runter");
+        steuerungslabel2.setSize(200,30);
+        steuerungslabel2.setLocation(XOFFSET, 280);
         this.add(steuerungslabel2);
-        /*Button startButton = new Button("START");
-        startButton.setPreferredSize(100,30);
-        startButton.setLocation(XOFFSET,400);
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (gc.isSpielende()) {
-                    gc.start();
-                    anzeigenController.gameCanvas.requestFocus();
-                    startButton.setEnabled(false);
-                }
-            }
-        });
-        */
-
+        Label steuerungslabel3 = new Label("SPACE = rotieren.");
+        steuerungslabel3.setSize(200,30);
+        steuerungslabel3.setLocation(XOFFSET, 310);
+        this.add(steuerungslabel3);
         this.add(anzeigenController.startButton);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -47,9 +36,8 @@ public class TetrisMainframe extends Frame  {
                 System.exit(0);
             }
         });
-
+        this.setResizable(false);
     }
-
 
     public static void main(String[] args){
         TetrisMainframe tmf = new TetrisMainframe();

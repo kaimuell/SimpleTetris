@@ -129,7 +129,7 @@ public class GameCycle extends Thread {
         return false;
     }
 
-    private void runde() {
+    protected void runde() {
         //falls spielstein in nächster xPosition Kollision zwischen feldern die true sind in feld und Spielstein,
         // oder Spielstein ist am Ende des Feldes
         if (kollisionsabfrage(new Spielstein((spielstein.getPosX() - 1), spielstein.getPosY(), spielstein.getForm(), this))) {
