@@ -23,6 +23,7 @@ public class AnzeigenController {
         this.gameCanvas = new GameCanvas(gameCycle);
         this.gameCanvas.setLocation(10, 10);
         this.gameCanvas.setVisible(true);
+        this.gameCanvas.createBufferStrategy(1);
         this.startButton = createStartButton();
     }
 
@@ -69,6 +70,7 @@ public class AnzeigenController {
         this.startButton.setEnabled(true);
     }
 
+    public synchronized void updateGameCanvasBackground(){gameCanvas.createBackgroundImage();}
     public synchronized void updateGameCanvas(){
         gameCanvas.repaint();
     }
