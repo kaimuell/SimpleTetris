@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 
 //Canvas zur Anzeige des laufenden Spiels.
-public class GameCanvas extends Canvas implements KeyListener {
+public class GameCanvas extends JPanel implements KeyListener {
     double breiteStein;
     double laengeStein;
     GameCycle gameCycle;
@@ -15,7 +15,7 @@ public class GameCanvas extends Canvas implements KeyListener {
 
     GameCanvas(GameCycle gameCycle){
         this.gameCycle = gameCycle;
-        this.setSize(180, 400);
+        this.setSize(200, 400);
         breiteStein =  ((this.getWidth()-1) / (gameCycle.getFeld()[1].length));
         laengeStein =  ((this.getHeight()-1) /(gameCycle.getFeld().length));
         this.setBackground(Color.BLACK);
@@ -23,6 +23,7 @@ public class GameCanvas extends Canvas implements KeyListener {
         this.setFocusable(true);
         this.requestFocus();
         this.addKeyListener(this);
+        this.backgroundImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
      }
 
      public void createBackgroundImage(){
@@ -51,6 +52,7 @@ public class GameCanvas extends Canvas implements KeyListener {
     @Override
     public void paint(Graphics g) {
         //Male alle Punkte aus aktuellem Spielstein als Rechtecke.
+        super.paint(g);
         g.drawImage(backgroundImage, 0, 0, null);
         g.setColor(Color.RED);
         for (int spX = 0; spX < gameCycle.getAktuellerSpielstein().getForm().length; spX++) {

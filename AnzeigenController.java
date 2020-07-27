@@ -8,7 +8,7 @@ public class AnzeigenController {
     VorschauCanvas vorschauCanvas;
     Label punkteLabel;
     GameCycle gameCycle;
-    int XOFFSET = 300;
+    final int XOFFSET = 300;
     Button startButton;
 
     AnzeigenController(){
@@ -21,9 +21,8 @@ public class AnzeigenController {
         this.vorschauCanvas.setVisible(true);
         this.vorschauCanvas.setLocation(XOFFSET,120);
         this.gameCanvas = new GameCanvas(gameCycle);
-        this.gameCanvas.setLocation(10, 10);
+        this.gameCanvas.setLocation(30, 10);
         this.gameCanvas.setVisible(true);
-        this.gameCanvas.createBufferStrategy(1);
         this.startButton = createStartButton();
     }
 

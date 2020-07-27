@@ -16,7 +16,7 @@ public class GameCycle extends Thread {
     private boolean aktuellesSpielAbgeschlossen;
 
     GameCycle(AnzeigenController anzeigenController, int initPosX, int initPosY, int anfangsgeschwindigkeit) {
-        this.feld = new boolean[20][9];
+        this.feld = new boolean[20][10];
         for (int i = 0; i < feld.length; i++) {
             for (int j = 0; j < feld[i].length; j++) {
                 feld[i][j] = false;
@@ -56,9 +56,6 @@ public class GameCycle extends Thread {
         this.spielende = b;
     }
 
-    public void setAktuellesSpielAbgeschlossen(boolean aktuellesSpielAbgeschlossen) {
-        this.aktuellesSpielAbgeschlossen = aktuellesSpielAbgeschlossen;
-    }
 
     public Spielstein getNaechsterSpielstein() {
         return naechsterSpielstein;
@@ -151,7 +148,6 @@ public class GameCycle extends Thread {
             //Lösche spielstein erzeuge neuen Spielstein
             spielstein = naechsterSpielstein;
             erzeugeNaechstenSpielstein();
-            anzeigenController.updateGameCanvasBackground();
             anzeigenController.updateVorschauCanvas();
         //falls Zeilen in feld vollständig gefüllt erhöhe Punktzahl, lösche die Zeilen und lasse die anderen nach unten fallen.
             int geloeschteZeilen = 0; //Zur Berechnung der Punktzahl;

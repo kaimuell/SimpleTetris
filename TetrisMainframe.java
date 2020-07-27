@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 public class TetrisMainframe extends Frame  {
 
-    int XOFFSET = 300;
+    final int XOFFSET = 300;
 
     TetrisMainframe(){
         super("SimpleTetris");
