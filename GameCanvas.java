@@ -16,8 +16,8 @@ public class GameCanvas extends JPanel implements KeyListener {
     GameCanvas(GameCycle gameCycle){
         this.gameCycle = gameCycle;
         this.setSize(200, 400);
-        breiteStein =  ((this.getWidth()-1) / (gameCycle.getFeld()[1].length));
-        laengeStein =  ((this.getHeight()-1) /(gameCycle.getFeld().length));
+        breiteStein =  ((this.getWidth()) / (gameCycle.getFeld()[1].length));
+        laengeStein =  ((this.getHeight()) /(gameCycle.getFeld().length));
         this.setBackground(Color.BLACK);
         this.setVisible(true);
         this.setFocusable(true);

@@ -57,6 +57,8 @@ public class AnzeigenController {
                     }else{
                         gameCycle.setSpielende(false);
                         startButton.setEnabled(false);
+                        updateGameCanvasBackground();
+                        updateGameCanvas();
                         gameCanvas.requestFocus();
                     }
                 }
