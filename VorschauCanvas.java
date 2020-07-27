@@ -20,9 +20,9 @@ public class VorschauCanvas extends Canvas {
     }
 
     private int yPos(int x) {
-        return (int)  ((x+1) * breiteFeld);
+        return (int)  (this.getHeight() - (x +2) * breiteFeld);
     }
-    private int xPos(int y) { return (int)  ((y + 1) * hoeheFeld); }
+    private int xPos(int y) { return (int)  (y + 1) * hoeheFeld; }
 
     @Override
     public void paint(Graphics g) {
