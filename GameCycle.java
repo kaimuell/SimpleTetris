@@ -129,60 +129,62 @@ public class GameCycle extends Thread {
     protected void runde() {
         //falls spielstein in nächster xPosition Kollision zwischen feldern die true sind in feld und Spielstein,
         // oder Spielstein ist am Ende des Feldes
-        if (kollisionsabfrage(new Spielstein((spielstein.getPosX() - 1), spielstein.getPosY(), spielstein.getForm(), this))) {
-            //setze felder in feld true welche in spielstein true waren.
-            //falls ein feld in oberster Reihe von feld==true : spielende = true
-            for (int i = 0; i < spielstein.getForm().length; i++) {
-                for (int j = 0; j < spielstein.getForm()[i].length; j++) {
-                    if (spielstein.getForm()[i][j]) {
-                        if (i + spielstein.getPosX() < feld.length) {
-                            feld[i + spielstein.getPosX()][j + spielstein.getPosY()] = true;
-                        } else {
-                            spielende = true;
-                            aktuellesSpielAbgeschlossen = true;
+        if (!isSpielende()) {
+            if (kollisionsabfrage(new Spielstein((spielstein.getPosX() - 1), spielstein.getPosY(), spielstein.getForm(), this))) {
+                //setze felder in feld true welche in spielstein true waren.
+                //falls ein feld in oberster Reihe von feld==true : spielende = true
+                for (int i = 0; i < spielstein.getForm().length; i++) {
+                    for (int j = 0; j < spielstein.getForm()[i].length; j++) {
+                        if (spielstein.getForm()[i][j]) {
+                            if (i + spielstein.getPosX() < feld.length) {
+                                feld[i + spielstein.getPosX()][j + spielstein.getPosY()] = true;
+                            } else {
+                                spielende = true;
+                                aktuellesSpielAbgeschlossen = true;
+                            }
                         }
                     }
                 }
-            }
 
-            //Lösche spielstein erzeuge neuen Spielstein
-            spielstein = naechsterSpielstein;
-            erzeugeNaechstenSpielstein();
-            anzeigenController.updateVorschauCanvas();
-        //falls Zeilen in feld vollständig gefüllt erhöhe Punktzahl, lösche die Zeilen und lasse die anderen nach unten fallen.
-            int geloeschteZeilen = 0; //Zur Berechnung der Punktzahl;
-            for (int i = 0; i < feld.length; i++) {
-                int gefuellt = 0;
-                for (int j = 0; j < feld[i].length; j++) {
-                    if (feld[i][j]) {
-                        gefuellt += 1;
-                    }
-                }
-                if (gefuellt == feld[i].length) {
-                    int iTemp = i;
-                    i = i-1; //Um aktuelles Feld nocheinmal zu durchlaufen
-                    geloeschteZeilen += 1;
-                    for (int k = iTemp; k < feld.length - 1; k++) {
-                        for (int l = 0; l < feld[k].length; l++) {
-                            feld[k][l] = feld[k + 1][l];
+                //Lösche spielstein erzeuge neuen Spielstein
+                spielstein = naechsterSpielstein;
+                erzeugeNaechstenSpielstein();
+                anzeigenController.updateVorschauCanvas();
+                //falls Zeilen in feld vollständig gefüllt erhöhe Punktzahl, lösche die Zeilen und lasse die anderen nach unten fallen.
+                int geloeschteZeilen = 0; //Zur Berechnung der Punktzahl;
+                for (int i = 0; i < feld.length; i++) {
+                    int gefuellt = 0;
+                    for (int j = 0; j < feld[i].length; j++) {
+                        if (feld[i][j]) {
+                            gefuellt += 1;
                         }
                     }
-                    for (int m = 0; m < feld[iTemp].length; m++) {
-                        feld[feld.length - 1][m] = false;
+                    if (gefuellt == feld[i].length) {
+                        int iTemp = i;
+                        i = i - 1; //Um aktuelles Feld nocheinmal zu durchlaufen
+                        geloeschteZeilen += 1;
+                        for (int k = iTemp; k < feld.length - 1; k++) {
+                            for (int l = 0; l < feld[k].length; l++) {
+                                feld[k][l] = feld[k + 1][l];
+                            }
+                        }
+                        for (int m = 0; m < feld[iTemp].length; m++) {
+                            feld[feld.length - 1][m] = false;
+                        }
                     }
                 }
+                if (geloeschteZeilen > 0) {
+                    this.punkteStand += (int) Math.pow(2, geloeschteZeilen);
+                }
+                anzeigenController.updatePunkteLabel(punkteStand);
+                anzeigenController.updateGameCanvasBackground();
+                anzeigenController.updateGameCanvas();
             }
-            if (geloeschteZeilen > 0) {
-                this.punkteStand += (int) Math.pow(2, geloeschteZeilen);
+            //sonst spielstein ein Feld nach unten bewegen.
+            else {
+                spielstein.PosXMinusEins();
+                anzeigenController.updateGameCanvas();
             }
-            anzeigenController.updatePunkteLabel(punkteStand);
-            anzeigenController.updateGameCanvasBackground();
-            anzeigenController.updateGameCanvas();
-        }
-        //sonst spielstein ein Feld nach unten bewegen.
-        else {
-            spielstein.PosXMinusEins();
-            anzeigenController.updateGameCanvas();
         }
     }
 
@@ -219,7 +221,7 @@ public class GameCycle extends Thread {
             }
 
             try {
-                sleep(500);
+                sleep(1000);
                /* if (geschwindigkeit > 10) {
                     geschwindigkeit -= 1;
                 }*/
