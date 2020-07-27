@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 
 //Canvas zur Anzeige des laufenden Spiels.
@@ -9,6 +10,7 @@ public class GameCanvas extends Canvas implements KeyListener {
     double breiteStein;
     double laengeStein;
     GameCycle gameCycle;
+    BufferedImage backgroundImage;
 
 
     GameCanvas(GameCycle gameCycle){
@@ -23,6 +25,20 @@ public class GameCanvas extends Canvas implements KeyListener {
         this.addKeyListener(this);
      }
 
+     public void createBackgroundImage(){
+        BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g = img.createGraphics();
+         for (int i = 0; i < gameCycle.getFeld().length; i++){
+             for (int j = 0; j < gameCycle.getFeld()[i].length; j++){
+                 if (gameCycle.getFeld()[i][j]){
+                     g.setColor(Color.BLUE);
+                     g.fillRect(yPos(j), xPos(i), (int)breiteStein, (int)laengeStein);
+                 }
+             }
+         }
+         this.backgroundImage = img;
+     }
+
 
     private int yPos(int x){
         return (int) ((x * breiteStein));
@@ -33,29 +49,22 @@ public class GameCanvas extends Canvas implements KeyListener {
     }
 
     @Override
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         //Male alle Punkte aus aktuellem Spielstein als Rechtecke.
-
-        for (int spX=0;spX < gameCycle.getAktuellerSpielstein().getForm().length; spX ++){
-            for (int spY=0; spY < gameCycle.getAktuellerSpielstein().getForm()[0].length; spY++){
-            if ((spX + gameCycle.getAktuellerSpielstein().getPosX()) < gameCycle.getFeld().length){
-                if (gameCycle.getAktuellerSpielstein().getForm()[spX][spY]){
-                    g.setColor(Color.RED);
-                    g.drawRect(yPos(gameCycle.getAktuellerSpielstein().getPosY()+spY), xPos(gameCycle.getAktuellerSpielstein().getPosX()+spX),
-                             (int) breiteStein, (int)laengeStein); }
-            }
-            }
-        }
-        //Male alle Punkte aus dem Hintergrundarray als Rechtecke.
-        for (int i = 0; i < gameCycle.getFeld().length; i++){
-            for (int j = 0; j < gameCycle.getFeld()[i].length; j++){
-                if (gameCycle.getFeld()[i][j]){
-                    g.setColor(Color.BLUE);
-                    g.fillRect(yPos(j), xPos(i), (int)breiteStein, (int)laengeStein);
+        g.drawImage(backgroundImage, 0, 0, null);
+        g.setColor(Color.RED);
+        for (int spX = 0; spX < gameCycle.getAktuellerSpielstein().getForm().length; spX++) {
+            for (int spY = 0; spY < gameCycle.getAktuellerSpielstein().getForm()[0].length; spY++) {
+                if ((spX + gameCycle.getAktuellerSpielstein().getPosX()) < gameCycle.getFeld().length) {
+                    if (gameCycle.getAktuellerSpielstein().getForm()[spX][spY]) {
+                        g.drawRect(yPos(gameCycle.getAktuellerSpielstein().getPosY() + spY), xPos(gameCycle.getAktuellerSpielstein().getPosX() + spX),
+                                (int) breiteStein, (int) laengeStein);
+                    }
                 }
             }
         }
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -69,6 +78,7 @@ public class GameCanvas extends Canvas implements KeyListener {
             gameCycle.runde();
             repaint();
         }
+
     }
 
     @Override

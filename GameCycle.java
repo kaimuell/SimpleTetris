@@ -151,6 +151,7 @@ public class GameCycle extends Thread {
             //Lösche spielstein erzeuge neuen Spielstein
             spielstein = naechsterSpielstein;
             erzeugeNaechstenSpielstein();
+            anzeigenController.updateGameCanvasBackground();
             anzeigenController.updateVorschauCanvas();
         //falls Zeilen in feld vollständig gefüllt erhöhe Punktzahl, lösche die Zeilen und lasse die anderen nach unten fallen.
             int geloeschteZeilen = 0; //Zur Berechnung der Punktzahl;
@@ -179,6 +180,7 @@ public class GameCycle extends Thread {
                 this.punkteStand += (int) Math.pow(2, geloeschteZeilen);
             }
             anzeigenController.updatePunkteLabel(punkteStand);
+            anzeigenController.updateGameCanvasBackground();
             anzeigenController.updateGameCanvas();
         }
         //sonst spielstein ein Feld nach unten bewegen.
